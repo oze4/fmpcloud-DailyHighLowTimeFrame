@@ -62,11 +62,11 @@ async function inWhichTimespanDidHighOccur(apiKey, timeframe = "1hour", symbol, 
   const dailyHL = await getDailyHighLow(apiKey, symbol, from, to);
   const url = `https://fmpcloud.io/api/v3/historical-chart/${timeframe}/${symbol.toUpperCase()}?from=${from}&to=${to}&apikey=${apiKey}`;
   const resp = await fetch(url);
-  const intradayArr = await resp.json();
+  const intradays = await resp.json();
 
   return dailyHL.map((daily) => {
     // Filter to find all intraday stats by date
-    const intraday = intradayArr.filter((i) => String(i.date).startsWith(String(daily.date)));
+    const intraday = intradays.filter((i) => String(i.date).startsWith(String(daily.date)));
     // Find the hour that had the daily low for that day
     let found = intraday.find((id) => Number(id.low).toFixed(2) <= Number(daily.low).toFixed(2));
     // Since fmpcloud.io will sometimes return data that has a daily high/low listed as X,
