@@ -75,6 +75,7 @@ async function inWhichTimespanDidHighOccur(apiKey, timeframe = "1hour", symbol, 
     // does not match up with any intraday "candle" low.
     if (!found) {
       // This grabs the high from each intraday "candle" and turns it into an array of numbers.
+      // Then it returns the highest high from that array of highs.
       const highestIntraday = Number(Math.max.apply(Math, intraday.map(id => id.high))).toFixed(2);
       // Since all we have now is the highest high (just the number) we still want all of those props
       // from the intraday object. So we find it based upon that "candle.high" number we already have.
@@ -117,6 +118,7 @@ async function inWhichTimespanDidLowOccur(apiKey, timeframe = "1hour", symbol, f
     // does not match up with any intraday "candle" low.
     if (!found) {
       // This grabs the low from each intraday "candle" and turns it into an array of numbers.
+      // Then it returns the lowest low from that array of lows.
       const lowestIntraday = Number(Math.min.apply(Math, intraday.map(id => id.low))).toFixed(2);
       // Since all we have now is the lowest low (just the number) we still want all of those props
       // from the intraday object. So we find it based upon that "candle.low" number we already have.
