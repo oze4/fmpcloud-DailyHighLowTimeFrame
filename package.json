@@ -1,10 +1,10 @@
 {
-  "name": "fmpcloud",
+  "name": "fmpcloud_daily_high_low_time_frame",
   "version": "1.0.0",
   "description": "",
-  "main": "HighOrLowBefore11am.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dailyHighLowTimeFrame": "node ./DailyHighLowTimeFrames"
   },
   "author": "",
   "license": "ISC",

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const fetch = require("node-fetch");
 const fs = require('fs');
 const { parse } = require("json2csv");
@@ -8,15 +9,18 @@ const { parse } = require("json2csv");
  * 
  */
 
-(async () => {
-  const apiKey = "";
+Main();
+async function Main() {
+  if (!process.env.API_KEY) throw new Error("No API key found! Use .env");
+
+  const apiKey = process.env.API_KEY;
   const symbol = "TSLA";
   const from = "2021-06-7";
   const to = "2021-06-18";
-  const timeframe = "15mmin";
+  const timeframe = "15min";
 
-  let lows = await inWhichTimespanDidLowOccur(apiKey, timeframe, symbol, from, to);
-  let highs = await inWhichTimespanDidHighOccur(apiKey, timeframe, symbol, from, to);
+  const lows = await inWhichTimespanDidLowOccur(apiKey, timeframe, symbol, from, to);
+  const highs = await inWhichTimespanDidHighOccur(apiKey, timeframe, symbol, from, to);
 
   const result = lows.map(low => {
     const { timespan, ...copy } = low;
@@ -30,13 +34,12 @@ const { parse } = require("json2csv");
     }
   });
 
-  const fields = Object.keys(result[0]);
-  const csv = parse(result, { fields });
+  const csv = parse(result, { fields: Object.keys(result[0]) });
   fs.writeFile('highlow.csv', csv, (err) => {
     if (err) return console.error(err);
     console.log('.csv saved');
   });
-})();
+};
 
 /**
  * 
