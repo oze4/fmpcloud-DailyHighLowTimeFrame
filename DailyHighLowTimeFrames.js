@@ -71,13 +71,13 @@ async function inWhichTimespanDidHighOccur(apiKey, timeframe = "1hour", symbol, 
     let found = intraday.find((id) => Number(id.low).toFixed(2) <= Number(daily.low).toFixed(2));
     // Since fmpcloud.io will sometimes return data that has a daily high/low listed as X,
     // but when you get hourly data for that day, the high/low will be listed as Y. 
-    // This means we just find the lowest low in the intraday data if the daily high/low
+    // This means we just find the highest high in the intraday data if the daily high/low
     // does not match up with any intraday "candle" low.
     if (!found) {
-      // This grabs the low from each intraday "candle" and turns it into an array of numbers.
+      // This grabs the high from each intraday "candle" and turns it into an array of numbers.
       const highestIntraday = Number(Math.max.apply(Math, intraday.map(id => id.high))).toFixed(2);
-      // Since all we have now is the lowest low (just the number) we still want all of those props
-      // from the intraday object. So we find it based upon that "candle.low" number we already have.
+      // Since all we have now is the highest high (just the number) we still want all of those props
+      // from the intraday object. So we find it based upon that "candle.high" number we already have.
       found = intraday.find(id => Number(id.high).toFixed(2) === highestIntraday);
     } 
 
